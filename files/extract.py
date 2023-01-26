@@ -1,24 +1,24 @@
-from PySimpleGUI import Window, Text, InputText, FilesBrowse, FolderBrowse, Button, WINDOW_CLOSED, Column
-from zipCreator import make_archive
+from PySimpleGUI import Text, InputText, FileBrowse, FolderBrowse, Button, Window, WINDOW_CLOSED, Column
+from zipExtractor import extract_archive
 
-sourceText = Text('Select files to compress: ')
+sourceText = Text('Select zip file: ')
 sourceInputText = InputText(key='sourceInputText')
-sourceButton = FilesBrowse('Select files', key='sourceButton')
+sourceButton = FileBrowse('Select zip files', key='sourceButton')
 
 destinationText = Text('Select destination folder: ')
 destinationInputText = InputText(key='destinationInputText')
 destinationButton = FolderBrowse('Select directory', key='destinationButton')
 
-compressButton = Button('Compress')
+compressButton = Button('Extract')
 
-successMessageText = Text(key='successMessageText', text_color='green')
+successMessageText = Text(key='successMessageText')
 
 textColumn = Column([[sourceText], [destinationText]])
 inputTextColumn = Column([[sourceInputText], [destinationInputText]])
 buttonColumn = Column([[sourceButton], [destinationButton]])
 
 window = Window(
-    'Compress to zip files',
+    'Extract zip files',
     layout=[
         [textColumn, inputTextColumn, buttonColumn],
         [compressButton, successMessageText]
@@ -28,17 +28,17 @@ window = Window(
 
 while True:
     event, values = window.read()
-    print('event', event)
-    print('values', values)
-
     if event == WINDOW_CLOSED:
         break
 
-    sourceFilePaths = values['sourceInputText'].split(';')
-    destinationFilePaths = values['destinationInputText']
+    sourceFilePath = values['sourceInputText']
+    destinationFilePath = values['destinationInputText']
 
-    make_archive(sourceFilePaths, destinationFilePaths)
+    extract_archive(sourceFilePath, destinationFilePath)
 
     window['successMessageText'].update(value='Successfully compressed files!')
 
 window.close()
+
+
+

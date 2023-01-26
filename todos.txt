@@ -1,3 +1,4 @@
 John Smith
-play soccer
+Play soccer
 Make pizza
+Finish day 18
